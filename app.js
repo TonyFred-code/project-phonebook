@@ -8,6 +8,8 @@ const __dirname = dirname(__filename);
 
 const app = express();
 
+app.use(express.static(join(__dirname, "public")));
+
 app.set("views", join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
