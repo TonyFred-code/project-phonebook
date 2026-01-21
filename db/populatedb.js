@@ -3,22 +3,33 @@
 import { Client } from "pg";
 
 const SQL = `
--- 1. Create Categories safely
+-- 1. Create Categories Table
 CREATE TABLE IF NOT EXISTS contact_categories (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
+    name VARCHAR(50) NOT NULL UNIQUE,
     description TEXT,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
--- 2. Insert ID 0 only if it doesn't exist
--- ON CONFLICT prevents the "duplicate key" error
-INSERT INTO contact_categories (id, name, description) 
-VALUES (0, 'unassigned_contacts', 'Default category for contacts')
-ON CONFLICT (id) DO NOTHING;
+-- 2. Insert default category (ID 0) safely
+-- First, ensure the sequence starts at 1 (after manual ID 0)
+DO $$
+BEGIN
+    -- Only insert if ID 0 doesn't exist
+    IF NOT EXISTS (SELECT 1 FROM contact_categories WHERE id = 0) THEN
+        INSERT INTO contact_categories (id, name, description) 
+        VALUES (0, 'unassigned_contacts', 'Default category for contacts');
+    END IF;
+    
+    -- Set sequence to start at 1 (minimum valid value)
+    -- This ensures next auto-generated IDs start at 1, not 0
+    PERFORM setval('contact_categories_id_seq', 
+                   GREATEST(1, (SELECT COALESCE(MAX(id), 0) FROM contact_categories WHERE id > 0)), 
+                   true);
+END $$;
 
--- 3. Create Contacts safely
+-- 3. Create Contacts Table
 CREATE TABLE IF NOT EXISTS contacts (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
@@ -31,7 +42,7 @@ CREATE TABLE IF NOT EXISTS contacts (
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
--- 4. Create Protection Function (CREATE OR REPLACE is safe)
+-- 4. Create Protection Function
 CREATE OR REPLACE FUNCTION protect_default_category()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -42,14 +53,11 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- 5. Create Trigger (Drop first to avoid "already exists" error)
+-- 5. Create Trigger
 DROP TRIGGER IF EXISTS prevent_default_cat_deletion ON contact_categories;
 CREATE TRIGGER prevent_default_cat_deletion
 BEFORE DELETE ON contact_categories
 FOR EACH ROW EXECUTE FUNCTION protect_default_category();
-
--- 6. Sync Sequence safely
-SELECT setval('contact_categories_id_seq', COALESCE((SELECT MAX(id) FROM contact_categories), 1), true);
 `;
 
 async function main() {
