@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phone Book</title>
+    <link rel="stylesheet" href="/styles/index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="overpass-medium">
+    <div class="page-container">
+      <header>
+        <h1>Phone Book</h1>
+      </header>
+      <% if (locals.contacts && contacts.length > 0) { %>
+      <main class="contacts-container">
+        <h2>contacts</h2>
+        <ul>
+          <% contacts.forEach(function(contact) { %>
+          <li>
+            <span><%= contact.name %></span>
+          </li>
+          <% }); %>
+        </ul>
+      </main>
+      <% } else { %>
+      <main class="empty-contact-list">
+        <div class="img-container">
+          <img
+            src="/images/empty-contacts.png"
+            alt="No contacts in phone book"
+          />
+        </div>
+        <p>There are no contacts yet.</p>
+        <form class="create-contact-container" action="/new" method="get">
+          <button type="submit" aria-label="Add new contact">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="#ffffff"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-plus-icon lucide-plus"
+            >
+              <path d="M5 12h14" />
+              <path d="M12 5v14" />
+            </svg>
+          </button>
+        </form>
+      </main>
+      <% } %>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+@import url("./overpass-font-classes.css");
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  display: grid;
+  font-size: 1.6rem;
+}
+
+.page-container {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  padding: 1.8rem 1.6rem;
+  box-shadow: 0 5px 35px 0 #120e4205;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.page-container main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.empty-contact-list .img-container {
+  width: 75%;
+  height: 75%;
+  max-width: 280px;
+  max-height: 280px;
+}
+
+.empty-contact-list p {
+  opacity: 0.4;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.create-contact-container {
+  position: absolute;
+  right: 10%;
+  bottom: 10%;
+}
+
+.create-contact-container button {
+  color: white;
+  background: #00b3ffff;
+  border-radius: 99999px;
+  width: 52px;
+  height: 52px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.create-contact-container button:hover {
+  box-shadow: 0 0 13px 1px #00b3ffba;
+}
