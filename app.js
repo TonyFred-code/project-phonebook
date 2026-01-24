@@ -16,6 +16,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", indexRouter);
 
+app.use((req, res, next) => {
+  res.status(404).render("404");
+});
+
 const PORT = process.env.PORT || 8000;
 
 app
