@@ -23,11 +23,34 @@ body {
 header {
   padding: 1.8rem 1.6rem;
   box-shadow: 0 5px 35px 0 #120e4205;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 header h1 {
   margin: 0;
   font-size: 2rem;
+}
+
+header a {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+  box-shadow: 0 3px 0 0 #f9f9f9;
+  transition: all 0.3s ease-in-out;
+  background: #f3f3f3;
+  padding: 0.8rem 1rem;
+  text-align: center;
+}
+
+header a:hover {
+  background: #f1f1f1;
+}
+
+header a:active {
+  box-shadow: none;
+  transform: translateY(2.8px);
 }
 
 .page-container main {
