@@ -20,6 +20,15 @@ app.use((req, res, next) => {
   res.status(404).render("404");
 });
 
+// **Error-handling middleware**
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  res.status(statusCode).render("errors", { message });
+});
+
 const PORT = process.env.PORT || 8000;
 
 app
