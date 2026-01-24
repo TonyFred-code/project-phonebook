@@ -1,4 +1,8 @@
-import { getAllCategories, getAllContacts } from "../db/queries.js";
+import {
+  createContact,
+  getAllCategories,
+  getAllContacts,
+} from "../db/queries.js";
 
 async function createContactGet(req, res) {
   const categories = await getAllCategories();
@@ -7,10 +11,12 @@ async function createContactGet(req, res) {
 }
 
 async function createContactPost(req, res) {
-  console.log(req.body);
+  const contactFormData = req.body;
 
-  res.redirect("/");
-}
+  const createdContactId = await createContact(contactFormData);
+  console.log(createdContactId);
+  res.redirect("/"); // "/contacts/:id"
+} // TODO: ADD CONTACT FORM VALIDATION
 
 async function getPhoneBook(req, res) {
   const contacts = await getAllContacts();
