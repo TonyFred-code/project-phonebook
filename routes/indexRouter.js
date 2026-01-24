@@ -1,12 +1,8 @@
 import { Router } from "express";
-import {
-  createContactGet,
-  getPhoneBook,
-} from "../controllers/indexController.js";
+import { redirect } from "../controllers/indexController.js";
 
 const indexRouter = Router();
 
-indexRouter.get("/contacts/new", createContactGet);
-indexRouter.get("/", getPhoneBook);
+indexRouter.get("/", redirect);
 
 export { indexRouter };
