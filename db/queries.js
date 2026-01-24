@@ -25,6 +25,31 @@ async function getContactById(id) {
   return rows[0];
 }
 
+async function createContact(contact) {
+  const { first_name, last_name, phone_number, email, category_id } = contact;
+
+  // Ensure empty email becomes NULL for the database
+  const finalEmail = email && email.trim() !== "" ? email.trim() : null;
+
+  const query = `
+    INSERT INTO contacts (first_name, last_name, phone_number, email, category_id)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING id;
+  `;
+
+  const values = [
+    first_name.trim(),
+    last_name.trim(),
+    phone_number.trim(),
+    finalEmail,
+    category_id,
+  ];
+
+  const { rows } = await pool.query(query, values);
+
+  return rows[0].id;
+}
+
 async function getAllCategories() {
   const { rows } = await pool.query(
     `
@@ -37,4 +62,4 @@ async function getAllCategories() {
   return rows;
 }
 
-export { getAllContacts, getContactById, getAllCategories };
+export { getAllContacts, getContactById, getAllCategories, createContact };
