@@ -1,4 +1,10 @@
-import { getAllContacts } from "../db/queries.js";
+import { getAllCategories, getAllContacts } from "../db/queries.js";
+
+async function createContactGet(req, res) {
+  const categories = await getAllCategories();
+
+  res.render("new-contact-form", { categories });
+}
 
 async function getPhoneBook(req, res) {
   const contacts = await getAllContacts();
@@ -8,4 +14,4 @@ async function getPhoneBook(req, res) {
   res.render("index", { contacts });
 }
 
-export { getPhoneBook };
+export { getPhoneBook, createContactGet };

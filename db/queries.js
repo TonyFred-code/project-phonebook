@@ -25,4 +25,16 @@ async function getContactById(id) {
   return rows[0];
 }
 
-export { getAllContacts, getContactById };
+async function getAllCategories() {
+  const { rows } = await pool.query(
+    `
+    SELECT id, name, is_default
+    FROM contact_categories
+    ORDER BY is_default DESC, name ASC;
+    `
+  );
+
+  return rows;
+}
+
+export { getAllContacts, getContactById, getAllCategories };
