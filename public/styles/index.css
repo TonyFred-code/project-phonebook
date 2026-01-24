@@ -53,18 +53,101 @@ header a:active {
   transform: translateY(2.8px);
 }
 
-.page-container main {
+.contacts-container {
   flex: 1;
+  align-items: start;
+  justify-content: stretch;
+  margin: 1rem auto;
+  background: #f9f9f9;
+  width: 100%;
+  max-width: 600px;
+  padding: 1rem 2rem;
+}
+
+.contacts-container h2 {
+  display: flex;
+  gap: 2rem;
+  text-transform: capitalize;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+.contacts-container .contacts-count {
+  opacity: 0.5;
+}
+
+.contacts-container ul {
+  list-style-type: none;
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+.contacts-container li {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  background: #f1f1f1;
+  padding: 1rem 1.6rem;
+  justify-content: space-between;
+}
+
+.contacts-container .contact {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  text-transform: capitalize;
+  text-decoration: none;
+  color: black;
+  width: 80%;
+}
+
+.contacts-container .contact:hover .contact-name {
+  text-decoration: underline;
+}
+
+.contacts-container .contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contacts-container .contact-number {
+  opacity: 0.5;
+}
+
+.contacts-container .edit-contact {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: green;
+  padding: 1rem;
+}
+
+.contacts-container .edit-contact:hover {
+  box-shadow: 0px 0px 5px 0px #f3f3f3;
+  background: #caf9c9;
+}
+
+.contacts-container .contact-icon-container {
+  width: 50px;
+  height: 50px;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .empty-contact-list {
+  gap: 3rem;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .empty-contact-list .img-container {
@@ -87,8 +170,8 @@ img {
 
 .create-contact-container {
   position: absolute;
-  right: 10%;
-  bottom: 10%;
+  right: min(10%, 50px);
+  bottom: min(10%, 50px);
 }
 
 .create-contact-container button {

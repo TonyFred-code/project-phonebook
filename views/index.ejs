@@ -21,11 +21,71 @@
       </header>
       <% if (locals.contacts && contacts.length > 0) { %>
       <main class="contacts-container">
-        <h2>contacts</h2>
+        <h2 class="overpass-bold">
+          <span>contact list:</span
+          ><span class="overpass-medium-italic contacts-count"
+            >(<%= contacts.length %>)</span
+          >
+        </h2>
         <ul>
           <% contacts.forEach(function(contact) { %>
           <li>
-            <span><%= contact.name %></span>
+            <a href="/contacts/<%= contact.id %>" class="contact">
+              <div class="contact-icon-container">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="48"
+                  height="48"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-circle-user-round-icon lucide-circle-user-round"
+                >
+                  <path d="M18 20a6 6 0 0 0-12 0" />
+                  <circle cx="12" cy="10" r="4" />
+                  <circle cx="12" cy="12" r="10" />
+                </svg>
+              </div>
+              <div class="contact-details">
+                <span class="contact-name"
+                  ><%= contact.first_name %>
+                  <%= contact.last_name %></span
+                >
+                <span class="contact-number overpass-light-italic"
+                  ><%= contact.phone_number %></span
+                >
+              </div>
+            </a>
+            <div class="edit-contact">
+              <a
+                href="/contacts/<%= contact.id %>/edit"
+                title="Edit Contact"
+                aria-label="Edit contact"
+                class="edit-contact"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="30"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-user-pen-icon lucide-user-pen"
+                >
+                  <path d="M11.5 15H7a4 4 0 0 0-4 4v2" />
+                  <path
+                    d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
+                  />
+                  <circle cx="10" cy="7" r="4" />
+                </svg>
+              </a>
+            </div>
           </li>
           <% }); %>
         </ul>
@@ -39,31 +99,31 @@
           />
         </div>
         <p>There are no contacts yet.</p>
-        <form
-          class="create-contact-container"
-          action="/contacts/new"
-          method="get"
-        >
-          <button type="submit" aria-label="Add new contact">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="#ffffff"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-plus-icon lucide-plus"
-            >
-              <path d="M5 12h14" />
-              <path d="M12 5v14" />
-            </svg>
-          </button>
-        </form>
       </main>
       <% } %>
+      <form
+        class="create-contact-container"
+        action="/contacts/new"
+        method="get"
+      >
+        <button type="submit" aria-label="Add new contact">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="#ffffff"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-plus-icon lucide-plus"
+          >
+            <path d="M5 12h14" />
+            <path d="M12 5v14" />
+          </svg>
+        </button>
+      </form>
     </div>
   </body>
 </html>
