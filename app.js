@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 
 // **Error-handling middleware**
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error(err);
 
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
