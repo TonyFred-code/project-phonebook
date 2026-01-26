@@ -13,11 +13,13 @@ async function getContactById(id) {
     `
   SELECT 
     contacts.*,
-    contact_categories.name AS category_name
+    contact_categories.name AS category_name,
+    contact_categories.is_default AS category_is_default,
+    TO_CHAR(contacts.created_at, 'Mon DD, YYYY at HH12:MI AM') AS formatted_date
     FROM contacts
     JOIN contact_categories
     ON contacts.category_id = contact_categories.id
-    WHERE contact.id = $1;
+    WHERE contacts.id = $1;
 `,
     [id]
   );
