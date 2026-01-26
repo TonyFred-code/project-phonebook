@@ -8,8 +8,8 @@ import {
 
 const contactsRouter = Router();
 
-contactsRouter.get("/:contactId", contactById);
 contactsRouter.get("/new", createContactGet);
+contactsRouter.get("/:contactId", contactById);
 contactsRouter.post("/", createContactPost);
 contactsRouter.get("/", getPhoneBook);
 
