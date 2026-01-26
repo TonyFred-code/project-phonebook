@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  contactById,
   createContactGet,
   createContactPost,
   getPhoneBook,
@@ -7,6 +8,7 @@ import {
 
 const contactsRouter = Router();
 
+contactsRouter.get("/:contactId", contactById);
 contactsRouter.get("/new", createContactGet);
 contactsRouter.post("/", createContactPost);
 contactsRouter.get("/", getPhoneBook);
