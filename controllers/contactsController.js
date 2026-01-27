@@ -1,11 +1,15 @@
 import { validationResult } from "express-validator";
 import {
   createContact,
+  deleteContactById,
   getAllCategories,
   getAllContacts,
   getContactById,
   updateContact,
 } from "../db/queries.js";
+import { configDotenv } from "dotenv";
+
+configDotenv();
 
 async function updateContactGet(req, res) {
   const contactId = req.params.contactId;
@@ -127,6 +131,37 @@ async function createContactPost(req, res) {
   }
 }
 
+async function deleteContact(req, res) {
+  const { contactId } = req.params;
+  const { delete_code } = req.body;
+
+  if (delete_code !== process.env.CONTACT_DELETION_CODE) {
+    return res.status(403).json({
+      success: false,
+      message: "Invalid contact deletion code",
+    });
+  }
+
+  try {
+    const result = await deleteContactById(contactId);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Contact not found",
+      });
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Failed to delete the contact: ", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete contact",
+    });
+  }
+}
+
 async function contactById(req, res) {
   const contactId = req.params.contactId;
 
@@ -156,4 +191,5 @@ export {
   contactById,
   updateContactGet,
   updateContactPost,
+  deleteContact,
 };
