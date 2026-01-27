@@ -70,16 +70,62 @@ async function updateContactPost(req, res) {
 async function createContactGet(req, res) {
   const categories = await getAllCategories();
 
-  res.render("new-contact-form", { categories });
+  res.render("new-contact-form", { categories, errors: [], formData: {} });
 }
 
 async function createContactPost(req, res) {
-  const contactFormData = req.body;
+  const errors = validationResult(req);
 
-  const createdContactId = await createContact(contactFormData);
-  console.log(createdContactId);
-  res.redirect("/"); // "/contacts/:id"
-} // TODO: ADD CONTACT FORM VALIDATION
+  if (!errors.isEmpty()) {
+    const categories = await getAllCategories();
+
+    const formData = {
+      first_name: req.body.first_name || "",
+      last_name: req.body.last_name || "",
+      phone_number: req.body.phone_number || "",
+      email: req.body.email || "",
+      category_id: req.body.category_id || "",
+    };
+
+    return res.render("new-contact-form", {
+      categories,
+      formData,
+      errors: errors.array().map((err) => err.msg),
+    });
+  }
+
+  const { first_name, last_name, phone_number, email, category_id } = req.body;
+
+  try {
+    const contactId = await createContact({
+      first_name: first_name.trim(),
+      last_name: last_name.trim(),
+      phone_number: phone_number.trim(),
+      email: email ? email.trim() : null,
+      category_id,
+    });
+
+    res.redirect(`/contacts/${contactId}`);
+  } catch (error) {
+    console.error("Error creating contact: ", error);
+
+    const categories = await getAllCategories();
+
+    const formData = {
+      first_name: req.body.first_name || "",
+      last_name: req.body.last_name || "",
+      phone_number: req.body.phone_number || "",
+      email: req.body.email || "",
+      category_id: req.body.category_id || "",
+    };
+
+    res.render("new-contact-form", {
+      categories,
+      formData,
+      errors: ["Failed to create contact. Please try again."],
+    });
+  }
+}
 
 async function contactById(req, res) {
   const contactId = req.params.contactId;
