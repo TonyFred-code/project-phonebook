@@ -15,7 +15,7 @@
   <body class="overpass-regular">
     <div class="page-container">
       <header>
-        <a href="/" aria-label="Go Home">
+        <a href="/contacts" aria-label="Go Home">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -37,19 +37,21 @@
         <h1 class="overpass-medium">New Contact</h1>
       </header>
       <main>
-        <form method="post" action="/contacts" id="new-contact-form">
+        <form method="post" action="/contacts/new" id="new-contact-form">
           <div>
             <label for="first_name">first name <span>*</span>:</label>
             <input
               type="text"
-              autocomplete="given-name"
               name="first_name"
+              autocomplete="given-name"
               id="first_name"
               placeholder="First Name"
               required
               title="Enter your first name (given name)"
+              value="<%= typeof formData !== 'undefined' ? formData.first_name : '' %>"
             />
           </div>
+
           <div>
             <label for="last_name">last name <span>*</span>:</label>
             <input
@@ -60,12 +62,14 @@
               placeholder="Last Name"
               required
               title="Enter your last name (surname)"
+              value="<%= typeof formData !== 'undefined' ? formData.last_name : '' %>"
             />
           </div>
+
           <div>
             <label for="phone_number">phone number <span>*</span>:</label>
             <input
-              type="text"
+              type="tel"
               autocomplete="tel"
               name="phone_number"
               id="phone_number"
@@ -73,34 +77,50 @@
               title="Please enter a valid phone number (e.g., +234...)"
               placeholder="+234__________"
               required
+              value="<%= typeof formData !== 'undefined' ? formData.phone_number : '' %>"
             />
           </div>
+
           <div>
             <label for="email">email address:</label>
             <input
               type="email"
-              placeholder="Email Address"
+              title="Enter your email address (e.g. example@gmail.com)"
               autocomplete="email"
               name="email"
               id="email"
+              placeholder="Email Address"
+              value="<%= typeof formData !== 'undefined' ? formData.email : '' %>"
             />
           </div>
-          <% if (locals.categories) { %>
+
           <div>
             <label for="contact_category">contact category</label>
             <select name="category_id" id="contact_category">
-              <% for (let i = 0; i < categories.length; i++) { %> <% if
-              (categories[i].is_default) {%>
+              <% for (let i = 0; i < categories.length; i++) { %> <% const
+              isSelected = typeof formData !== 'undefined' &&
+              formData.category_id == categories[i].id; %> <% if (isSelected) {
+              %>
               <option value="<%= categories[i].id %>" selected>
-                -- Default (Unassigned) --
+                <%= categories[i].is_default ? '-- Default (Unassigned) --' : categories[i].name %>
               </option>
               <% } else { %>
               <option value="<%= categories[i].id %>">
-                <%= categories[i].name %>
+                <%= categories[i].is_default ? '-- Default (Unassigned) --' :
+                categories[i].name %>
               </option>
               <% } %>
               <% } %>
             </select>
+          </div>
+
+          <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+          <div class="error-messages">
+            <ul>
+              <% errors.forEach(error => { %>
+              <li><%= error %></li>
+              <% }); %>
+            </ul>
           </div>
           <% } %>
 
@@ -111,7 +131,7 @@
               aria-label="Create contact"
               class="overpass-bold"
             >
-              <span>Submit</span>
+              <span>Create Contact</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
