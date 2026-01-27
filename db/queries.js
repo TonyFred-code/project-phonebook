@@ -52,6 +52,47 @@ async function createContact(contact) {
   return rows[0].id;
 }
 
+async function updateContact(contact) {
+  const { first_name, last_name, phone_number, email, category_id, id } =
+    contact;
+
+  // Ensure empty email becomes NULL for the database
+  const finalEmail = email && email.trim() !== "" ? email.trim() : null;
+
+  const query = `
+    UPDATE contacts 
+    SET first_name = $1,
+        last_name = $2,
+        phone_number = $3,
+        email = $4,
+        category_id = $5
+    WHERE id = $6
+    RETURNING *;
+  `;
+
+  const values = [
+    first_name.trim(),
+    last_name.trim(),
+    phone_number.trim(),
+    finalEmail,
+    category_id,
+    id,
+  ];
+
+  try {
+    const { rows, rowCount } = await pool.query(query, values);
+
+    if (rowCount === 0) {
+      throw new Error(`Contact with id ${id} not found`);
+    }
+
+    return rows[0];
+  } catch (error) {
+    console.error("Error updating contact:", error);
+    throw error;
+  }
+}
+
 async function getAllCategories() {
   const { rows } = await pool.query(
     `
@@ -64,4 +105,10 @@ async function getAllCategories() {
   return rows;
 }
 
-export { getAllContacts, getContactById, getAllCategories, createContact };
+export {
+  getAllContacts,
+  getContactById,
+  getAllCategories,
+  createContact,
+  updateContact,
+};
