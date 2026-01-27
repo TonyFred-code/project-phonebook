@@ -70,7 +70,7 @@ async function updateContactPost(req, res) {
 async function createContactGet(req, res) {
   const categories = await getAllCategories();
 
-  res.render("new-contact-form", { categories, errors: [], formData: {} });
+  res.render("new-contact", { categories, errors: [], formData: {} });
 }
 
 async function createContactPost(req, res) {
@@ -87,7 +87,7 @@ async function createContactPost(req, res) {
       category_id: req.body.category_id || "",
     };
 
-    return res.render("new-contact-form", {
+    return res.render("new-contact", {
       categories,
       formData,
       errors: errors.array().map((err) => err.msg),
@@ -119,7 +119,7 @@ async function createContactPost(req, res) {
       category_id: req.body.category_id || "",
     };
 
-    res.render("new-contact-form", {
+    res.render("new-contact", {
       categories,
       formData,
       errors: ["Failed to create contact. Please try again."],
