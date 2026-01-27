@@ -9,6 +9,8 @@ const __dirname = dirname(__filename);
 
 const app = express();
 
+app.use(express.json());
+
 app.use(express.static(join(__dirname, "public")));
 
 app.set("views", join(__dirname, "views"));
