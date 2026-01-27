@@ -5,6 +5,14 @@ import {
   getContactById,
 } from "../db/queries.js";
 
+async function updateContactGet(req, res) {
+  const contactId = req.params.contactId;
+  const contact = await getContactById(contactId);
+  const categories = await getAllCategories();
+
+  res.render("edit-contact", { categories, contact });
+}
+
 async function createContactGet(req, res) {
   const categories = await getAllCategories();
 
@@ -41,4 +49,10 @@ async function getPhoneBook(req, res) {
   res.render("index", { contacts });
 }
 
-export { getPhoneBook, createContactGet, createContactPost, contactById };
+export {
+  getPhoneBook,
+  createContactGet,
+  createContactPost,
+  contactById,
+  updateContactGet,
+};
