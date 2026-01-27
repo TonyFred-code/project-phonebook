@@ -93,6 +93,17 @@ async function updateContact(contact) {
   }
 }
 
+async function deleteContactById(contactId) {
+  return await pool.query(
+    `
+      DELETE FROM contacts
+      WHERE id = $1
+      RETURNING *
+      `,
+    [contactId]
+  );
+}
+
 async function getAllCategories() {
   const { rows } = await pool.query(
     `
@@ -111,4 +122,5 @@ export {
   getAllCategories,
   createContact,
   updateContact,
+  deleteContactById,
 };
