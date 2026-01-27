@@ -2,7 +2,7 @@ import pool from "./pool.js";
 
 async function getAllContacts() {
   const { rows } = await pool.query(
-    "SELECT id, first_name, last_name, phone_number FROM contacts ORDER BY first_name ASC;"
+    "SELECT id, first_name, last_name, phone_number FROM contacts ORDER BY first_name ASC, last_name ASC;"
   );
 
   return rows;
