@@ -1,5 +1,11 @@
 @import url("./overpass-font-classes.css");
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html,
 body {
   margin: 0;
@@ -45,7 +51,7 @@ header a {
 }
 
 header a:hover {
-  background: #f1f1f1;
+  background: #d5d5d5;
 }
 
 header a:active {
@@ -55,6 +61,8 @@ header a:active {
 
 .contacts-container {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   align-items: start;
   justify-content: stretch;
   margin: 1rem auto;
@@ -83,6 +91,9 @@ header a:active {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 .contacts-container li {
@@ -90,7 +101,6 @@ header a:active {
   gap: 2rem;
   align-items: center;
   background: #f1f1f1;
-  padding: 1rem 1.6rem;
   justify-content: space-between;
 }
 
@@ -101,7 +111,12 @@ header a:active {
   text-transform: capitalize;
   text-decoration: none;
   color: black;
-  width: 80%;
+  flex-basis: 80%;
+  padding: 1rem 1.6rem;
+}
+
+.contacts-container .contact:hover {
+  background: #d5d5d5;
 }
 
 .contacts-container .contact:hover .contact-name {
@@ -119,13 +134,12 @@ header a:active {
 }
 
 .contacts-container .edit-contact {
-  width: 30px;
-  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: green;
   padding: 1rem;
+  flex-basis: 20%;
 }
 
 .contacts-container .edit-contact:hover {
@@ -134,8 +148,6 @@ header a:active {
 }
 
 .contacts-container .contact-icon-container {
-  width: 50px;
-  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -169,9 +181,9 @@ img {
 }
 
 .create-contact-container {
-  position: absolute;
-  right: min(10%, 50px);
-  bottom: min(10%, 50px);
+  position: fixed;
+  left: 25px;
+  bottom: 25px;
 }
 
 .create-contact-container button {
