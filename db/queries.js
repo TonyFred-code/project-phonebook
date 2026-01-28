@@ -116,6 +116,24 @@ async function getAllCategories() {
   return rows;
 }
 
+async function getCategoriesWithContactCount() {
+  const { rows } = await pool.query(
+    `
+    SELECT 
+    cc.id, 
+    cc.name, 
+    cc.is_default,
+    COUNT(c.id) AS contact_count
+  FROM contact_categories cc
+  LEFT JOIN contacts c ON cc.id = c.category_id
+  GROUP BY cc.id, cc.name, cc.is_default
+  ORDER BY cc.is_default DESC, cc.name ASC;
+    `
+  );
+
+  return rows;
+}
+
 export {
   getAllContacts,
   getContactById,
@@ -123,4 +141,5 @@ export {
   createContact,
   updateContact,
   deleteContactById,
+  getCategoriesWithContactCount,
 };
