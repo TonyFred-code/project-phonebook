@@ -66,6 +66,7 @@
             <span class="label">description: </span
             ><%= category.description ? category.description : 'No description.' %>
           </p>
+          <% if (!category.is_default) { %>
           <div class="forms-container">
             <!-- Edit button -->
             <form
@@ -122,6 +123,7 @@
               <span>Delete</span>
             </button>
           </div>
+          <% } %>
         </section>
         <section class="category-contacts">
           <h3>category contacts</h3>

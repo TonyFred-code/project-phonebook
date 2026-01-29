@@ -79,6 +79,7 @@
                 >
               </div>
             </a>
+            <% if (!category.is_default) { %>
             <a
               href="/category/<%= category.id %>/edit"
               title="Edit Category"
@@ -104,6 +105,7 @@
                 <circle cx="10" cy="7" r="4" />
               </svg>
             </a>
+            <% } %>
           </li>
           <% }); %>
         </ul>
