@@ -52,6 +52,22 @@ async function createContact(contact) {
   return rows[0].id;
 }
 
+async function createCategory(category) {
+  const { category_name, category_description } = category;
+
+  const query = `
+  INSERT INTO contact_categories (name, description)
+  VALUES ($1, $2)
+  RETURNING id;
+  `;
+
+  const values = [category_name.trim(), category_description.trim()];
+
+  const { rows } = await pool.query(query, values);
+
+  return rows[0].id;
+}
+
 async function updateContact(contact) {
   const { first_name, last_name, phone_number, email, category_id, id } =
     contact;
@@ -186,4 +202,5 @@ export {
   deleteContactById,
   getCategoriesWithContactCount,
   getCategoryWithContacts,
+  createCategory,
 };
