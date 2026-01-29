@@ -3,6 +3,10 @@ import {
   getCategoryWithContacts,
 } from "../db/queries.js";
 
+async function createCategoryGet(req, res) {
+  res.render("new-category");
+}
+
 async function getCategory(req, res) {
   const categoryId = req.params.categoryId;
   const category = await getCategoryWithContacts(categoryId);
@@ -24,4 +28,4 @@ async function getAllCategories(req, res) {
   res.render("categories", { categories });
 }
 
-export { getAllCategories, getCategory };
+export { getAllCategories, getCategory, createCategoryGet };
