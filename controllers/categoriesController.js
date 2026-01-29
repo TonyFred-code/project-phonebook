@@ -1,10 +1,50 @@
+import { validationResult } from "express-validator";
 import {
+  createCategory,
   getCategoriesWithContactCount,
   getCategoryWithContacts,
 } from "../db/queries.js";
 
 async function createCategoryGet(req, res) {
   res.render("new-category");
+}
+
+async function createCategoryPost(req, res) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const formData = {
+      category_name: req.body.category_name || "",
+      description: req.body.category_description || "",
+    };
+
+    return res.render("new-category", {
+      formData,
+      errors: errors.array().map((err) => err.msg),
+    });
+  }
+
+  const { category_name, category_description } = req.body;
+
+  try {
+    const categoryId = await createCategory({
+      category_name: category_name.trim(),
+      category_description: category_description.trim(),
+    });
+
+    res.redirect(`/categories/${categoryId}`);
+  } catch (error) {
+    console.error("Error creating category: ", error);
+
+    const formData = {
+      category_name: req.body.category_name || "",
+      description: req.body.category_description || "",
+    };
+    res.render("new-category", {
+      formData,
+      errors: ["Failed to create category. Please try again."],
+    });
+  }
 }
 
 async function getCategory(req, res) {
@@ -28,4 +68,4 @@ async function getAllCategories(req, res) {
   res.render("categories", { categories });
 }
 
-export { getAllCategories, getCategory, createCategoryGet };
+export { getAllCategories, getCategory, createCategoryGet, createCategoryPost };
