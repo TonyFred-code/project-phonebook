@@ -134,6 +134,49 @@ async function getCategoriesWithContactCount() {
   return rows;
 }
 
+async function getCategoryWithContacts(category_id) {
+  const { rows } = await pool.query(
+    `SELECT 
+       cc.id AS category_id,
+       cc.name AS category_name,
+       cc.description,
+       cc.is_default,
+       cc.created_at AS category_created_at,
+       c.id AS contact_id,
+       c.first_name,
+       c.last_name,
+       c.phone_number
+     FROM contact_categories cc
+     LEFT JOIN contacts c ON cc.id = c.category_id
+     WHERE cc.id = $1
+     ORDER BY LOWER(c.first_name) ASC, LOWER(c.last_name) ASC;`,
+    [category_id]
+  );
+
+  if (rows.length === 0) {
+    return null; // Category doesn't exist
+  }
+
+  const category = {
+    id: rows[0].category_id,
+    name: rows[0].category_name,
+    description: rows[0].description,
+    is_default: rows[0].is_default,
+    created_at: rows[0].category_created_at,
+    contacts: rows
+      .filter((row) => row.contact_id !== null)
+      .map((row) => ({
+        id: row.contact_id,
+        first_name: row.first_name,
+        last_name: row.last_name,
+        phone_number: row.phone_number,
+      })),
+    contact_count: rows.filter((row) => row.contact_id !== null).length,
+  };
+
+  return category;
+}
+
 export {
   getAllContacts,
   getContactById,
@@ -142,4 +185,5 @@ export {
   updateContact,
   deleteContactById,
   getCategoriesWithContactCount,
+  getCategoryWithContacts,
 };
