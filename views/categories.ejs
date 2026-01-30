@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phone Book | Categories</title>
+    <link rel="stylesheet" href="/styles/categories.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="overpass-medium">
+    <div class="page-container">
+      <header>
+        <a href="/contacts" aria-label="Go back to contacts view page">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000000"
+            stroke-width="1.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M13 9a1 1 0 0 1-1-1V5.061a1 1 0 0 0-1.811-.75l-6.835 6.836a1.207 1.207 0 0 0 0 1.707l6.835 6.835a1 1 0 0 0 1.811-.75V16a1 1 0 0 1 1-1h2a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1z"
+            />
+            <path d="M20 9v6" />
+          </svg>
+        </a>
+        <h1>Contact Categories</h1>
+      </header>
+      <% if (locals.categories && categories.length > 0) { %>
+      <main class="categories-container">
+        <h2 class="overpass-bold">
+          <span>categories list:</span
+          ><span class="overpass-medium-italic categories-count"
+            >(<%= categories.length %>)</span
+          >
+        </h2>
+        <ul>
+          <% categories.forEach(function(category) { %>
+          <li>
+            <a href="/categories/<%= category.id %>" class="category">
+              <div class="category-icon-container">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="36"
+                  height="36"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-users-round-icon lucide-users-round"
+                >
+                  <path d="M18 21a8 8 0 0 0-16 0" />
+                  <circle cx="10" cy="8" r="5" />
+                  <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
+                </svg>
+              </div>
+              <div class="category-details">
+                <span class="category-name"
+                  ><%= category.is_default ? "default (unassigned)" :
+                  category.name %></span
+                >
+                <span class="category-contact-count overpass-light-italic"
+                  ><%= category.contact_count %></span
+                >
+              </div>
+            </a>
+            <% if (!category.is_default) { %>
+            <a
+              href="/categories/<%= category.id %>/edit"
+              title="Edit Category"
+              aria-label="Edit Category"
+              class="edit-category"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="36"
+                height="36"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-user-pen-icon lucide-user-pen"
+              >
+                <path d="M11.5 15H7a4 4 0 0 0-4 4v2" />
+                <path
+                  d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
+                />
+                <circle cx="10" cy="7" r="4" />
+              </svg>
+            </a>
+            <% } %>
+          </li>
+          <% }); %>
+        </ul>
+      </main>
+      <% } %>
+      <form
+        class="create-category-container"
+        action="/categories/new"
+        method="get"
+      >
+        <button type="submit" aria-label="Create new category">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="#ffffff"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M5 12h14" />
+            <path d="M12 5v14" />
+          </svg>
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

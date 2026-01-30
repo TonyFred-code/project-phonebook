@@ -1,0 +1,109 @@
+/* OVERPASS FONT CLASSES */
+
+.overpass-thin {
+  font-family: "Overpass", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.overpass-extralight {
+  font-family: "Overpass", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.overpass-light {
+  font-family: "Overpass", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.overpass-regular {
+  font-family: "Overpass", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.overpass-medium {
+  font-family: "Overpass", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.overpass-semibold {
+  font-family: "Overpass", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.overpass-bold {
+  font-family: "Overpass", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.overpass-extrabold {
+  font-family: "Overpass", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.overpass-black {
+  font-family: "Overpass", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.overpass-thin-italic {
+  font-family: "Overpass", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.overpass-extralight-italic {
+  font-family: "Overpass", sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.overpass-light-italic {
+  font-family: "Overpass", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.overpass-regular-italic {
+  font-family: "Overpass", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.overpass-medium-italic {
+  font-family: "Overpass", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.overpass-semibold-italic {
+  font-family: "Overpass", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.overpass-bold-italic {
+  font-family: "Overpass", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.overpass-extrabold-italic {
+  font-family: "Overpass", sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.overpass-black-italic {
+  font-family: "Overpass", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}

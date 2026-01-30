@@ -1,0 +1,35 @@
+{
+  "name": "project-phonebook",
+  "version": "1.0.0",
+  "description": "An express app for managing a phone book",
+  "main": "app.js",
+  "scripts": {
+    "server": "node --watch app.js",
+    "db:setup": "node db/populatedb.js $DATABASE_URL"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TonyFred-code/project-phonebook.git"
+  },
+  "keywords": [
+    "Digital Phonebook",
+    "Express.js App"
+  ],
+  "author": "Alfred O. Faith (Tony Fred)",
+  "license": "MIT",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/TonyFred-code/project-phonebook/issues"
+  },
+  "homepage": "https://github.com/TonyFred-code/project-phonebook#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.1",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "prettier-plugin-ejs": "^1.0.3"
+  }
+}
