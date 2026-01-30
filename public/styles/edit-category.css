@@ -1,0 +1,137 @@
+@import url("./overpass-font-classes.css");
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-size: 1.6rem;
+}
+
+.page-container {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  padding: 1.8rem 1.6rem;
+  box-shadow: 0 5px 35px 0 #120e4205;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  text-transform: capitalize;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1.6rem;
+}
+
+.error-messages {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 15px;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.error-messages ul {
+  margin: 0;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.error-messages li {
+  margin: 5px 0;
+}
+
+form {
+  width: 75%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+form label {
+  text-transform: capitalize;
+}
+
+form label span {
+  color: red;
+  font-weight: bolder;
+}
+
+input,
+textarea {
+  padding: 1rem;
+  background: #fafafa;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-size: 1.6rem;
+  outline: none;
+}
+
+input:user-invalid {
+  border: 2px solid red;
+}
+
+input:focus,
+textarea:focus {
+  border: 1.5px solid #454545;
+}
+
+form .button-container {
+  display: flex;
+  margin: 1.2rem;
+}
+
+form button {
+  width: 80%;
+  color: white;
+  background: #00b3ff;
+  border-radius: 6px;
+  padding: 1rem 1.6rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 3px 0 0 #00b3ff80;
+  font-size: 1.8rem;
+  border: none;
+  outline: none;
+  transition: all 0.3s ease-in;
+  margin: 0 auto;
+}
+
+form button:active {
+  box-shadow: none;
+  transform: translateY(2.8px);
+}
+
+@media screen and (min-width: 768px) {
+  form {
+    max-width: 500px;
+  }
+}
