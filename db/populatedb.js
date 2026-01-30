@@ -69,7 +69,11 @@ BEGIN
         RAISE EXCEPTION 'Cannot unset is_default on the default category.';
     END IF;
 
-    RETURN NEW;
+    IF TG_OP = 'DELETE' THEN
+        RETURN OLD;  
+    ELSE
+        RETURN NEW;
+    END IF;
 END;
 $$ LANGUAGE plpgsql;
 
