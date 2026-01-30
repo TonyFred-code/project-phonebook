@@ -171,15 +171,11 @@ async function contactById(req, res) {
     return res.status(404).render("404");
   }
 
-  console.log(contact);
-
   res.render("contact", { contact });
 }
 
 async function getPhoneBook(req, res) {
   const contacts = await getAllContacts();
-
-  console.log("Contacts: ", contacts);
 
   res.render("index", { contacts });
 }
