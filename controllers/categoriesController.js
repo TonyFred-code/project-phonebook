@@ -2,8 +2,23 @@ import { validationResult } from "express-validator";
 import {
   createCategory,
   getCategoriesWithContactCount,
+  getCategoryById,
   getCategoryWithContacts,
 } from "../db/queries.js";
+
+async function updateCategoryGet(req, res) {
+  const categoryId = req.params.categoryId;
+
+  const category = await getCategoryById(categoryId);
+
+  if (!category) {
+    return res.status(404).render("404");
+  }
+
+  console.log(category);
+
+  res.render("edit-category", { category });
+}
 
 async function createCategoryGet(req, res) {
   res.render("new-category");
@@ -68,4 +83,10 @@ async function getAllCategories(req, res) {
   res.render("categories", { categories });
 }
 
-export { getAllCategories, getCategory, createCategoryGet, createCategoryPost };
+export {
+  getAllCategories,
+  getCategory,
+  createCategoryGet,
+  createCategoryPost,
+  updateCategoryGet,
+};

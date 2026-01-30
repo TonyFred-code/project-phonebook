@@ -4,6 +4,7 @@ import {
   createCategoryPost,
   getAllCategories,
   getCategory,
+  updateCategoryGet,
 } from "../controllers/categoriesController.js";
 import { categoryValidationRules } from "../validators/categoryValidator.js";
 
@@ -11,6 +12,7 @@ const categoriesRouter = Router();
 
 categoriesRouter.post("/new", categoryValidationRules(), createCategoryPost);
 categoriesRouter.get("/new", createCategoryGet);
+categoriesRouter.get("/:categoryId/edit", updateCategoryGet);
 categoriesRouter.get("/:categoryId", getCategory);
 categoriesRouter.get("/", getAllCategories);
 
