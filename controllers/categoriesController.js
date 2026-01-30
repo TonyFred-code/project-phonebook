@@ -31,7 +31,8 @@ async function updateCategoryPost(req, res) {
   if (!errors.isEmpty()) {
     const category = {
       id: req.params.categoryId,
-      ...req.body,
+      name: req.body.category_name,
+      description: req.body.category_description,
     };
 
     return res.render("edit-category", {
@@ -44,25 +45,48 @@ async function updateCategoryPost(req, res) {
   const { category_description, category_name } = req.body;
 
   try {
-    await updateCategory({
+    const category = {
       id: categoryId,
-      category_name: category_name.trim(),
-      category_description: category_description.trim(),
-    });
+      name: category_name.trim(),
+      description: category_description.trim(),
+    };
+    const result = await updateCategory(category);
+
+    if (result.rowCount === 0) {
+      res.render("edit-category", {
+        category,
+        errors: ["Category not found"],
+      });
+    }
 
     res.redirect(`/categories/${categoryId}`);
   } catch (error) {
     console.error("Error updating category: ", error);
 
+    let errorMessage =
+      error.msg || "Failed to update category. Please try again.";
+
     const category = {
       id: categoryId,
-      category_description,
-      category_name,
+      description: category_description,
+      name: category_name,
     };
+
+    // db trigger prevents default category status modification
+    // frontend does not (should not?) have the modify/delete capabilities
+    // for the is_default  = true category
+    if (error.message?.includes("Cannot unset is_default")) {
+      errorMessage = "Cannot modify the default category's status";
+    }
+
+    // Unique constraint violation (duplicate name)
+    if (error.code === "23505") {
+      errorMessage = "A category with this name already exists";
+    }
 
     res.render("edit-category", {
       category,
-      errors: ["Failed to update category. Please try again."],
+      errors: [errorMessage],
     });
   }
 }
