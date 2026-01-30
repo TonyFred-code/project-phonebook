@@ -168,7 +168,7 @@ async function contactById(req, res) {
   const contact = await getContactById(contactId);
 
   if (!contact) {
-    res.status(404).render("404");
+    return res.status(404).render("404");
   }
 
   console.log(contact);

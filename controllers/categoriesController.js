@@ -53,7 +53,7 @@ async function updateCategoryPost(req, res) {
     const result = await updateCategory(category);
 
     if (result.rowCount === 0) {
-      res.render("edit-category", {
+      return res.render("edit-category", {
         category,
         errors: ["Category not found"],
       });
@@ -203,7 +203,7 @@ async function getCategory(req, res) {
   const category = await getCategoryWithContacts(categoryId);
 
   if (!category) {
-    res.status(404).render("404");
+    return res.status(404).render("404");
   }
 
   console.log(category);
