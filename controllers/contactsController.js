@@ -12,11 +12,21 @@ import { configDotenv } from "dotenv";
 configDotenv();
 
 async function updateContactGet(req, res) {
-  const contactId = req.params.contactId;
-  const contact = await getContactById(contactId);
-  const categories = await getAllCategories();
+  try {
+    const contactId = req.params.contactId;
+    const contact = await getContactById(contactId);
+    const categories = await getAllCategories();
 
-  res.render("edit-contact", { categories, contact });
+    res.render("edit-contact", { categories, contact });
+  } catch (error) {
+    console.error("Error loading contact for edit: ", error);
+
+    res.render("edit-contact", {
+      contact: null,
+      categories: [],
+      errors: ["Failed to load contact data. Please try again."],
+    });
+  }
 }
 
 async function updateContactPost(req, res) {
@@ -163,15 +173,21 @@ async function deleteContact(req, res) {
 }
 
 async function contactById(req, res) {
-  const contactId = req.params.contactId;
+  try {
+    const contactId = req.params.contactId;
 
-  const contact = await getContactById(contactId);
+    const contact = await getContactById(contactId);
 
-  if (!contact) {
-    return res.status(404).render("404");
+    if (!contact) {
+      return res.status(404).render("404");
+    }
+
+    res.render("contact", { contact });
+  } catch (error) {
+    console.error("Error fetching contact details: ", error);
+
+    res.status(500).render("errors");
   }
-
-  res.render("contact", { contact });
 }
 
 async function getPhoneBook(req, res) {
