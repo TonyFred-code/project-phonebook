@@ -1,11 +1,15 @@
 import { validationResult } from "express-validator";
 import {
   createCategory,
+  deleteCategoryById,
   getCategoriesWithContactCount,
   getCategoryById,
   getCategoryWithContacts,
   updateCategory,
 } from "../db/queries.js";
+import { configDotenv } from "dotenv";
+
+configDotenv();
 
 async function updateCategoryGet(req, res) {
   const categoryId = req.params.categoryId;
@@ -59,6 +63,62 @@ async function updateCategoryPost(req, res) {
     res.render("edit-category", {
       category,
       errors: ["Failed to update category. Please try again."],
+    });
+  }
+}
+
+async function deleteCategory(req, res) {
+  const { categoryId } = req.params;
+  const { delete_code } = req.body;
+
+  if (delete_code !== process.env.CATEGORY_DELETION_CODE) {
+    return res.status(403).json({
+      success: false,
+      message: "Invalid category deletion code",
+    });
+  }
+
+  try {
+    const result = await deleteCategoryById(categoryId);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Category not found",
+      });
+    }
+
+    res.json({ success: true, message: "Category deleted successfully" });
+  } catch (error) {
+    console.error("Failed to delete the category: ", error);
+
+    // Catch RAISE EXCEPTION from db triggers
+    // Should not happen
+    // (frontend view doesn't have
+    // delete or modify option for is_default = true)
+    if (
+      error.code === "P0001" ||
+      error.message?.includes("Cannot delete the default category")
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: error.message || "Cannot delete the default category",
+      });
+    }
+
+    // Foreign key violation (shouldn't happen if trigger works)
+    // db auto reassigns contacts on deleted category to is_default = true
+    // category
+    if (error.code === "23503") {
+      return res.status(400).json({
+        success: false,
+        message: "Cannot delete category with assigned contacts",
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete category",
     });
   }
 }
@@ -133,4 +193,5 @@ export {
   createCategoryPost,
   updateCategoryGet,
   updateCategoryPost,
+  deleteCategory,
 };
