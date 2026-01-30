@@ -68,6 +68,33 @@ async function createCategory(category) {
   return rows[0].id;
 }
 
+async function updateCategory(category) {
+  const { category_name, category_description, id } = category;
+
+  const query = `
+  UPDATE contact_categories
+  SET name = $1,
+      description = $2
+  WHERE id = $3
+  RETURNING *;
+  `;
+
+  const values = [category_name, category_description, id];
+
+  try {
+    const { rows, rowCount } = await pool.query(query, values);
+
+    if (rowCount === 0) {
+      throw new Error(`Category with id ${id} not found!`);
+    }
+
+    return rows[0];
+  } catch (error) {
+    console.error("Error updating category: ", error);
+    throw error;
+  }
+}
+
 async function updateContact(contact) {
   const { first_name, last_name, phone_number, email, category_id, id } =
     contact;
@@ -112,7 +139,7 @@ async function updateContact(contact) {
 async function getCategoryById(categoryId) {
   const { rows } = await pool.query(
     `
-    SELECT name, description FROM contact_categories
+    SELECT id, name, description FROM contact_categories
     WHERE id = $1;`,
     [categoryId]
   );
@@ -215,4 +242,5 @@ export {
   getCategoryWithContacts,
   createCategory,
   getCategoryById,
+  updateCategory,
 };
