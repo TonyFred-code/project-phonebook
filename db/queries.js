@@ -205,7 +205,7 @@ async function getCategoryWithContacts(category_id) {
        cc.name AS category_name,
        cc.description,
        cc.is_default,
-       cc.created_at AS category_created_at,
+       TO_CHAR(cc.created_at, 'Mon DD, YYYY at HH12:MI AM') AS formatted_date,
        c.id AS contact_id,
        c.first_name,
        c.last_name,
@@ -226,7 +226,7 @@ async function getCategoryWithContacts(category_id) {
     name: rows[0].category_name,
     description: rows[0].description,
     is_default: rows[0].is_default,
-    created_at: rows[0].category_created_at,
+    formatted_date: rows[0].formatted_date,
     contacts: rows
       .filter((row) => row.contact_id !== null)
       .map((row) => ({
