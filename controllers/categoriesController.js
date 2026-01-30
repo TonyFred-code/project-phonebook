@@ -157,7 +157,7 @@ async function createCategoryPost(req, res) {
   if (!errors.isEmpty()) {
     const formData = {
       category_name: req.body.category_name || "",
-      description: req.body.category_description || "",
+      category_description: req.body.category_description || "",
     };
 
     return res.render("new-category", {
@@ -178,13 +178,22 @@ async function createCategoryPost(req, res) {
   } catch (error) {
     console.error("Error creating category: ", error);
 
+    let errorMessage =
+      error.msg || "Failed to create category. Please try again.";
+
     const formData = {
       category_name: req.body.category_name || "",
       description: req.body.category_description || "",
     };
+
+    // Unique constraints violation (duplicate name)
+    if (error.code === "23505") {
+      errorMessage = "A category with this name already exists.";
+    }
+
     res.render("new-category", {
       formData,
-      errors: ["Failed to create category. Please try again."],
+      errors: [errorMessage],
     });
   }
 }
