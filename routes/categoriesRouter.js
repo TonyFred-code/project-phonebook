@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createCategoryGet,
   createCategoryPost,
+  deleteCategory,
   getAllCategories,
   getCategory,
   updateCategoryGet,
@@ -13,6 +14,7 @@ const categoriesRouter = Router();
 
 categoriesRouter.post("/new", categoryValidationRules(), createCategoryPost);
 categoriesRouter.get("/new", createCategoryGet);
+categoriesRouter.post("/:categoryId/delete", deleteCategory);
 categoriesRouter.post(
   "/:categoryId/update",
   categoryValidationRules(),
