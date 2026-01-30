@@ -89,16 +89,10 @@ Or using the DATABASE_URL from your `.env`:
    node db/populatedb.js $DATABASE_URL
 ```
 
-- **Start the application**
+- **Start the application** (development with auto-reload)
 
 ```bash
-   npm start
-```
-
-For development with auto-reload:
-
-```bash
-   npm run dev
+   npm run server
 ```
 
 - **Access the application**
