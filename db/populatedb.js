@@ -111,25 +111,43 @@ EXECUTE FUNCTION reassign_to_default_category();
 `;
 
 async function main() {
-  const dbUrl = process.argv[2];
+  // Allow DATABASE_URL from argument or environment variable
+  const dbUrl = process.argv[2] || process.env.DATABASE_URL;
 
   if (!dbUrl) {
-    console.error("Usage: node db/populatedb.js <database-url>");
+    console.error("Error: No database URL provided.");
+    console.error("\nUsage:");
+    console.error("  node db/populatedb.js <database-url>");
+    console.error("  npm run db:setup");
+    console.error("\nOr set DATABASE_URL in your .env file");
     process.exit(1);
   }
 
   const client = new Client({
     connectionString: dbUrl,
-    ssl: { rejectUnauthorized: false },
+    ssl:
+      process.env.NODE_ENV === "production"
+        ? { rejectUnauthorized: false }
+        : false, // No SSL for local development
   });
 
-  console.log("Seeding phone book...");
+  try {
+    console.log("🔌 Connecting to database...");
+    await client.connect();
 
-  await client.connect();
-  await client.query(SQL);
-  await client.end();
+    console.log("📊 Creating tables and seeding data...");
+    await client.query(SQL);
 
-  console.log("Done.");
+    console.log("✅ Database setup complete!");
+    console.log("🎉 Your phonebook is ready to use!");
+  } catch (error) {
+    console.error("❌ Error setting up database:", error.message);
+    console.error("\nFull error:", error);
+    process.exit(1);
+  } finally {
+    await client.end();
+    console.log("🔌 Database connection closed.");
+  }
 }
 
 main();
