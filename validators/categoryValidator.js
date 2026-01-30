@@ -6,9 +6,9 @@ function categoryValidationRules() {
       .trim()
       .notEmpty()
       .withMessage("Category name is required")
-      .isAlphanumeric("en-US", { ignore: "_-" })
+      .isAlphanumeric("en-US", { ignore: " _-" })
       .withMessage(
-        "Category name can only contain letters, numbers, underscores and hyphens"
+        "Category name can only contain letters, numbers, underscores, hyphens and spaces"
       )
       .isLength({ min: 1, max: 100 })
       .withMessage("Category name must be between 1 and 100 characters"),
