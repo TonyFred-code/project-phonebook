@@ -125,10 +125,7 @@ async function main() {
 
   const client = new Client({
     connectionString: dbUrl,
-    ssl:
-      process.env.NODE_ENV === "production"
-        ? { rejectUnauthorized: false }
-        : false, // No SSL for local development
+    ssl: { rejectUnauthorized: false },
   });
 
   try {
