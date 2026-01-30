@@ -69,7 +69,7 @@ async function createCategory(category) {
 }
 
 async function updateCategory(category) {
-  const { category_name, category_description, id } = category;
+  const { name, description, id } = category;
 
   const query = `
   UPDATE contact_categories
@@ -79,7 +79,7 @@ async function updateCategory(category) {
   RETURNING *;
   `;
 
-  const values = [category_name, category_description, id];
+  const values = [name, description, id];
 
   try {
     const { rows, rowCount } = await pool.query(query, values);
