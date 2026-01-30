@@ -12,15 +12,23 @@ import { configDotenv } from "dotenv";
 configDotenv();
 
 async function updateCategoryGet(req, res) {
-  const categoryId = req.params.categoryId;
+  try {
+    const categoryId = req.params.categoryId;
 
-  const category = await getCategoryById(categoryId);
+    const category = await getCategoryById(categoryId);
 
-  if (!category) {
-    return res.status(404).render("404");
+    if (!category) {
+      return res.status(404).render("404");
+    }
+
+    res.render("edit-category", { category });
+  } catch (error) {
+    console.error("Error fetching category data for update: ", error);
+
+    res.status(500).render("errors", {
+      errors: ["Failed to fetch category data for update"],
+    });
   }
-
-  res.render("edit-category", { category });
 }
 
 async function updateCategoryPost(req, res) {
@@ -197,14 +205,22 @@ async function createCategoryPost(req, res) {
 }
 
 async function getCategory(req, res) {
-  const categoryId = req.params.categoryId;
-  const category = await getCategoryWithContacts(categoryId);
+  try {
+    const categoryId = req.params.categoryId;
+    const category = await getCategoryWithContacts(categoryId);
 
-  if (!category) {
-    return res.status(404).render("404");
+    if (!category) {
+      return res.status(404).render("404");
+    }
+
+    res.render("category", { category });
+  } catch (error) {
+    console.error("Error fetching category data: ", error);
+
+    res.status(500).render("errors", {
+      errors: ["Failed to fetch category data. Please try again"],
+    });
   }
-
-  res.render("category", { category });
 }
 
 async function getAllCategories(req, res) {

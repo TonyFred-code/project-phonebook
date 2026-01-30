@@ -217,7 +217,7 @@ project-phonebook/
 - `POST /categories/new` - Create category
 - `GET /categories/:id` - View category with contacts
 - `GET /categories/:id/edit` - Edit category form
-- `POST /categories/:id/edit` - Update category
+- `POST /categories/:id/update` - Update category
 - `POST /categories/:id/delete` - Delete category
 
 ## 🤝 Contributing
