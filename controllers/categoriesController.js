@@ -4,6 +4,7 @@ import {
   getCategoriesWithContactCount,
   getCategoryById,
   getCategoryWithContacts,
+  updateCategory,
 } from "../db/queries.js";
 
 async function updateCategoryGet(req, res) {
@@ -18,6 +19,48 @@ async function updateCategoryGet(req, res) {
   console.log(category);
 
   res.render("edit-category", { category });
+}
+
+async function updateCategoryPost(req, res) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const category = {
+      id: req.params.categoryId,
+      ...req.body,
+    };
+
+    return res.render("edit-category", {
+      category,
+      errors: errors.array().map((err) => err.msg),
+    });
+  }
+
+  const { categoryId } = req.params;
+  const { category_description, category_name } = req.body;
+
+  try {
+    await updateCategory({
+      id: categoryId,
+      category_name: category_name.trim(),
+      category_description: category_description.trim(),
+    });
+
+    res.redirect(`/categories/${categoryId}`);
+  } catch (error) {
+    console.error("Error updating category: ", error);
+
+    const category = {
+      id: categoryId,
+      category_description,
+      category_name,
+    };
+
+    res.render("edit-category", {
+      category,
+      errors: ["Failed to update category. Please try again."],
+    });
+  }
 }
 
 async function createCategoryGet(req, res) {
@@ -89,4 +132,5 @@ export {
   createCategoryGet,
   createCategoryPost,
   updateCategoryGet,
+  updateCategoryPost,
 };
