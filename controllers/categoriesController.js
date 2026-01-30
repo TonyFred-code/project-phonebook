@@ -25,9 +25,8 @@ async function updateCategoryGet(req, res) {
   } catch (error) {
     console.error("Error fetching category data for update: ", error);
 
-    res.status(500).render("edit-category", {
-      category: null,
-      errors: ["Failed to to fetch category data for update"],
+    res.status(500).render("errors", {
+      errors: ["Failed to fetch category data for update"],
     });
   }
 }
@@ -218,11 +217,9 @@ async function getCategory(req, res) {
   } catch (error) {
     console.error("Error fetching category data: ", error);
 
-    res
-      .status(500)
-      .render("errors", {
-        errors: ["Failed to fetch category data. Please try again"],
-      });
+    res.status(500).render("errors", {
+      errors: ["Failed to fetch category data. Please try again"],
+    });
   }
 }
 

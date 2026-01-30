@@ -17,13 +17,15 @@ async function updateContactGet(req, res) {
     const contact = await getContactById(contactId);
     const categories = await getAllCategories();
 
+    if (!contact || !categories) {
+      return res.status(404).render("404");
+    }
+
     res.render("edit-contact", { categories, contact });
   } catch (error) {
     console.error("Error loading contact for edit: ", error);
 
-    res.render("edit-contact", {
-      contact: null,
-      categories: [],
+    res.status(404).render("errors", {
       errors: ["Failed to load contact data. Please try again."],
     });
   }
@@ -118,6 +120,10 @@ async function createContactPost(req, res) {
       email: email ? email.trim() : null,
       category_id,
     });
+
+    if (!contactById) {
+      throw new Error("Contact creation failed");
+    }
 
     res.redirect(`/contacts/${contactId}`);
   } catch (error) {
