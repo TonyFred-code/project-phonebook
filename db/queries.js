@@ -158,6 +158,16 @@ async function deleteContactById(contactId) {
   );
 }
 
+async function deleteCategoryById(category_id) {
+  return await pool.query(
+    `
+    DELETE FROM contact_categories
+    WHERE id = $1
+    RETURNING *;`,
+    [category_id]
+  );
+}
+
 async function getAllCategories() {
   const { rows } = await pool.query(
     `
@@ -243,4 +253,5 @@ export {
   createCategory,
   getCategoryById,
   updateCategory,
+  deleteCategoryById,
 };
