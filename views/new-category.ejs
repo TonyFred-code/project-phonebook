@@ -60,7 +60,9 @@
               id="category_description"
               maxlength="200"
               rows="5"
-            ></textarea>
+            >
+          <%= typeof formData !== 'undefined' ? formData.category_description : '' %></textarea
+            >
           </div>
 
           <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
