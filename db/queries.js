@@ -109,6 +109,17 @@ async function updateContact(contact) {
   }
 }
 
+async function getCategoryById(categoryId) {
+  const { rows } = await pool.query(
+    `
+    SELECT name, description FROM contact_categories
+    WHERE id = $1;`,
+    [categoryId]
+  );
+
+  return rows[0];
+}
+
 async function deleteContactById(contactId) {
   return await pool.query(
     `
@@ -203,4 +214,5 @@ export {
   getCategoriesWithContactCount,
   getCategoryWithContacts,
   createCategory,
+  getCategoryById,
 };
