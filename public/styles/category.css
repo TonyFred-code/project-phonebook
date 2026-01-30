@@ -1,6 +1,8 @@
 @import url("./overpass-font-classes.css");
 
-*, *::before: *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
